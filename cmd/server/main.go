@@ -10,8 +10,8 @@ import (
 )
 
 type Server struct {
-	ln     net.Listener
-	stopCh chan struct{}
+	ln      net.Listener
+	stopCh  chan struct{}
 	readyCh chan error
 }
 
@@ -24,7 +24,11 @@ func (g *Server) stop() {
 }
 
 func (g *Server) waitReady() error {
-	return nil
+	err, nak := <-g.readyCh
+	if !nak {
+		return nil
+	}
+	return err
 }
 
 func startServer() (*Server, error) {
@@ -36,9 +40,9 @@ func startServer() (*Server, error) {
 	}
 
 	srv := Server{
-		ln:     ln,
-		stopCh: make(chan struct{}),
-		readyCh: make(chan error, 16),
+		ln:      ln,
+		stopCh:  make(chan struct{}),
+		readyCh: make(chan error, 1),
 	}
 
 	go srv.run()
@@ -52,7 +56,7 @@ func startServer() (*Server, error) {
 }
 
 func main() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnixNano
 
 	srv, err := startServer()
 	if err != nil {
