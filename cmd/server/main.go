@@ -3,7 +3,7 @@ package main
 import (
 	"net"
 
-	"github.com/lemon-mint/zchat2/internal/envaddr"
+	"github.com/unsafe-risk/zchat2/internal/envaddr"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
