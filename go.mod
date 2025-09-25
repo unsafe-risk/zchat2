@@ -2,7 +2,7 @@ module github.com/unsafe-risk/zchat2
 
 go 1.24rc1
 
-require github.com/rs/zerolog v1.33.0
+require github.com/rs/zerolog v1.34.0
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
